@@ -1,113 +1,80 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.2">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <title>Responsive Clock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* 1. 全局樣式，確保背景純黑 & 無多餘空白 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000; /* 背景黑色 */
+      color: #fff;      /* 文字白色 */
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    /* 2. 外層容器，用來置中時鐘與日期文字 */
+    .container {
+      text-align: center;
+    }
+    /* 3. 時鐘文字，使用 vw 來自適應螢幕大小 */
+    #clock {
+      font-size: 15vw;
+      line-height: 1;
+      margin: 0; /* 避免預設段落空白 */
+    }
+    /* 4. 日期或星期文字 */
+    #day {
+      font-size: 4vw;
+      margin: 0;
+      opacity: 0.8; /* 讓日期看起來微微淡出 */
+    }
+    /* 5. 在小螢幕時再調整一下字體大小 */
+    @media (max-width: 768px) {
+      #clock {
+        font-size: 20vw;
+      }
+      #day {
+        font-size: 6vw;
+      }
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;HK Flip Clock&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>* {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.flip-clock {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 80vw;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-width: 700px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>aspect-ratio: 2 / 1; /* Keeps overall shape consistent */</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: "Helvetica Neue", Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.flip-card {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #000;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.time {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: calc(1rem + 12vw); /* Scales up with viewport */</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.label {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: calc(0.5rem + 2vw);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Make sure text scales responsibly at smaller breakpoints */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width: 600px) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>.time {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>font-size: calc(2rem + 10vw);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>.label {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>font-size: calc(1rem + 1vw);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="flip-clock"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Hour + AM/PM --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="flip-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="time" id="hour"&gt;00&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="label" id="ampm"&gt;AM&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Minute + Day --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="flip-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="time" id="minute"&gt;00&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="label" id="day"&gt;SUNDAY&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function updateClock() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const now = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const hkNow = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Hong_Kong" }));</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>let hour = hkNow.getHours();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let minute = hkNow.getMinutes();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dayIndex = hkNow.getDay();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const ampm = hour &gt;= 12 ? "PM" : "AM";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>hour = hour % 12 || 12; // convert to 12-hour format</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("hour").textContent <span class="Apple-converted-space">  </span>= hour &lt; 10 ? "0" + hour : hour;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("minute").textContent = minute &lt; 10 ? "0" + minute : minute;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("ampm").textContent <span class="Apple-converted-space">  </span>= ampm;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("day").textContent<span class="Apple-converted-space">    </span>= days[dayIndex];</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>setInterval(updateClock, 1000);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>updateClock(); // initial call</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <div class="container">
+    <h1 id="clock"></h1>
+    <h2 id="day"></h2>
+  </div>
+  <script>
+    function updateClock() {
+      const now = new Date();
+      
+      // 12小時制 + AM/PM
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      let seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      
+      hours = hours % 12;
+      hours = hours ? hours : 12; // 0點要顯示12
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      
+      const timeStr = `${hours}:${minutes}:${seconds} ${ampm}`;
+      document.getElementById('clock').textContent = timeStr;
+      
+      // 顯示星期 (全大寫或自定義)
+      const weekdays = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+      document.getElementById('day').textContent = weekdays[now.getDay()];
+    }
+    
+    // 每秒更新一次
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
 </body>
 </html>
